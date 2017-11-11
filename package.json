@@ -6,7 +6,7 @@
     "clean": "rimraf ./dist",
     "lint": "tslint --project tslint.json",
     "build": "npm run clean && npm run lint && tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -32,8 +32,13 @@
     "node": ">=6.0.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.44",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
     "rimraf": "^2.6.2",
     "rxjs": "^5.5.2",
+    "ts-node": "^3.3.0",
     "tslint": "^5.8.0",
     "typescript": "^2.6.1"
   }

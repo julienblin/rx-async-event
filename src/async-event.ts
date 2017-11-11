@@ -57,3 +57,6 @@ export class AsyncEvent<TArgument, TValue> {
       return this.data.error;
     }
   }
+
+/** Constant init event - should be the same for all AsyncEvents... */
+export const InitAsyncEvent = new AsyncEvent('init', {});
