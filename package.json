@@ -1,0 +1,40 @@
+{
+  "name": "rx-async-event",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "lint": "tslint --project tslint.json",
+    "build": "npm run clean && npm run lint && tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julienblin/rx-async-event.git"
+  },
+  "keywords": [
+    "angular",
+    "rx",
+    "rxjs",
+    "async",
+    "event"
+  ],
+  "author": {
+    "name": "Julien Blin",
+    "email": "julien.blin@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/julienblin/rx-async-event/issues"
+  },
+  "homepage": "https://github.com/julienblin/rx-async-event#readme",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.2",
+    "rxjs": "^5.5.2",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.1"
+  }
+}
