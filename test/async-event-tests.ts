@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import 'mocha';
-import { AsyncEvent } from '../src/async-event';
-import { AsyncEventSubject } from '../src/index';
+import { AsyncEvent } from '../lib/async-event';
+import { AsyncEventSubject } from '../lib/index';
 
 // tslint:disable:no-unused-expression
 

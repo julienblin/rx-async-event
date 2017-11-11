@@ -8,6 +8,8 @@
     "build": "npm run clean && npm run lint && tsc",
     "test": "mocha"
   },
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/julienblin/rx-async-event.git"
