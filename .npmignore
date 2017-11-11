@@ -2,3 +2,6 @@ lib
 test
 tslint.json
 tsconfig.json
+.editorconfig
+.travis.yml
+.vscode
