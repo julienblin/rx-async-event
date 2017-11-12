@@ -11,10 +11,10 @@ export class AsyncEventSubject<TArgument, TValue> extends BehaviorSubject<AsyncE
   /**
    * Creates an AsyncEventSubject by following a promise lifecycle.
    */
-  public static fromPromise<TArgument, TValue>(argument: TArgument, promise: (argument: TArgument) => Promise<TValue>)
+  public static execute<TArgument, TValue>(argument: TArgument, promise: (argument: TArgument) => Promise<TValue>)
   : AsyncEventSubject<TArgument, TValue> {
       const subject = new AsyncEventSubject<TArgument, TValue>();
-      return subject.executePromise(argument, promise);
+      return subject.execute(argument, promise);
   }
 
   constructor() {
@@ -49,7 +49,7 @@ export class AsyncEventSubject<TArgument, TValue> extends BehaviorSubject<AsyncE
    * loading => loaded | error;
    * Returns itself.
    */
-  public executePromise(argument: TArgument, promise: (argument: TArgument) => Promise<TValue>) {
+  public execute(argument: TArgument, promise: (argument: TArgument) => Promise<TValue>) {
     this.loading(argument);
     promise(argument)
       .then(

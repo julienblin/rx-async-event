@@ -20,7 +20,7 @@ describe('AsyncEvent', () => {
     const allEvents: Array<AsyncEvent<number, string>> = [];
     const subject = new AsyncEventSubject<number, string>();
     subject.subscribe((evt) => allEvents.push(evt));
-    await subject.executePromise(5, async (x) => 'tada' + x);
+    await subject.execute(5, async (x) => 'tada' + x);
 
     expect(allEvents).to.have.lengthOf(3);
     expect(allEvents[0].isInit).to.be.true;
@@ -33,7 +33,7 @@ describe('AsyncEvent', () => {
   });
 
   it('should create from promise', async () => {
-    const subject = AsyncEventSubject.fromPromise<number, string>(5, async (x) => 'tada' + x);
+    const subject = AsyncEventSubject.execute<number, string>(5, async (x) => 'tada' + x);
     expect(subject.getValue().isLoading).to.be.true;
   });
 
@@ -41,7 +41,7 @@ describe('AsyncEvent', () => {
     const allEvents: Array<AsyncEvent<number, string>> = [];
     const subject = new AsyncEventSubject<number, string>();
     subject.subscribe((evt) => allEvents.push(evt));
-    await subject.executePromise(5, async (x) => { throw new Error('promiseError'); });
+    await subject.execute(5, async (x) => { throw new Error('promiseError'); });
 
     expect(allEvents).to.have.lengthOf(3);
     expect(allEvents[0].isInit).to.be.true;
