@@ -117,5 +117,5 @@ export class AppComponent {
     Ohuh - something went wrong: {{postEvent.error.message}}
   </ng-container>
 
-  </ng-container>
+</ng-container>
 ```
