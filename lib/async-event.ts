@@ -17,7 +17,7 @@ export class AsyncEvent<TArgument, TValue> {
       }) {
     }
 
-    /** Returns true if this event represents the inital state. */
+    /** Returns true if this event represents the initial state. */
     get isInit() {
       return this.is('init');
     }
@@ -27,7 +27,7 @@ export class AsyncEvent<TArgument, TValue> {
       return this.is('loading');
     }
 
-    /** Returns true if this event represents a lodaded state. */
+    /** Returns true if this event represents a loaded state. */
     get isLoaded() {
       return this.is('loaded');
     }
