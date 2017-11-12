@@ -17,9 +17,20 @@ As a side benefit, it also manages errors so that they bubble up in a managed wa
 
 ## How to use
 
+### Installation
+
+```shell
+npm i --save rx-async-event
+```
+
 ### Service
 
 ```typescript
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { AsyncEventObservable, AsyncEventSubject } from 'rx-async-event';
+import { Post } from './post';
+
 @Injectable()
 export class AppService {
 
@@ -56,6 +67,11 @@ export class AppService {
 ### Component
 
 ```typescript
+import { Component } from '@angular/core';
+import { AppService } from './app.service';
+import { Post } from './post';
+import { AsyncEventObservable } from 'rx-async-event';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
