@@ -1,8 +1,10 @@
-[![Build Status](https://travis-ci.org/julienblin/rx-async-event.svg?branch=master)](https://travis-ci.org/julienblin/rx-async-event)
-
 # rx-async-event
 
 Manages loading / loaded / error state (mainly) for Angular applications.
+
+[![Travis](https://travis-ci.org/julienblin/rx-async-event.svg?branch=master)]()
+[![npm](https://img.shields.io/npm/v/rx-async-event.svg)]()
+[![bitHound](https://img.shields.io/bithound/dependencies/github/julienblin/rx-async-event.svg)]()
 
 ## Objectives
 
