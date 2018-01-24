@@ -1,12 +1,40 @@
 /** Possible states for an async event. */
 export type AsyncEventState = 'init' | 'loading' | 'loaded' | 'error';
 
+/** Non-generic interface for AsyncEvent */
+export interface IAsyncEvent {
+
+  /** Returns true if this event represents the initial state. */
+  isInit: boolean;
+
+  /** Returns true if this event represents a loading state. */
+  isLoading: boolean;
+
+  /** Returns true if this event represents a loaded state. */
+  isLoaded: boolean;
+
+  /** Returns true if this event represents an error state. */
+  isError: boolean;
+
+  /** Gets the event argument, if any. */
+  argument: any;
+
+  /** Gets the event value, if any. */
+  value: any;
+
+  /** Gets the event error, if any. */
+  error?: Error;
+
+  /** More elegant version of state ===. */
+  is(state: AsyncEventState): boolean;
+}
+
 /**
  * An AsyncEvent is a encapsulation of an event
  * that can be emitted along with state indication
  * and data.
  */
-export class AsyncEvent<TArgument, TValue> {
+export class AsyncEvent<TArgument, TValue> implements IAsyncEvent {
 
     constructor(
       public readonly state: AsyncEventState,

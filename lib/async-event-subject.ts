@@ -70,7 +70,7 @@ export class AsyncEventSubject<TArgument, TValue> extends BehaviorSubject<AsyncE
   }
 
   /**
-   * Manages the observance life cycle of a single-value Observable.
+   * Manages the observance life cycle of an Observable.
    * loading => loaded | error;
    * Returns itself.
    */
