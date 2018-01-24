@@ -1,5 +1,6 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { AsyncEvent, InitAsyncEvent } from './async-event';
 
 /**
@@ -12,19 +13,10 @@ export class AsyncEventSubject<TArgument, TValue> extends BehaviorSubject<AsyncE
   /**
    * Creates an AsyncEventSubject by following a promise life cycle.
    */
-  public static execute<TArgument, TValue>(argument: TArgument, promise: (argument: TArgument) => Promise<TValue>)
-  : AsyncEventSubject<TArgument, TValue> {
+  public static execute<TArgument, TValue>(argument: TArgument, promise: (argument: TArgument) => Promise<TValue>) {
       const subject = new AsyncEventSubject<TArgument, TValue>();
-      return subject.execute(argument, promise);
-  }
-
-  /**
-   * Creates an AsyncEventSubject by following an observable life cycle.
-   */
-  public static observe<TArgument, TValue>(argument: TArgument, observable: Observable<TValue>)
-  : AsyncEventSubject<TArgument, TValue> {
-      const subject = new AsyncEventSubject<TArgument, TValue>();
-      return subject.observe(argument, observable);
+      subject.execute(argument, promise);
+      return subject;
   }
 
   constructor() {
@@ -57,7 +49,6 @@ export class AsyncEventSubject<TArgument, TValue> extends BehaviorSubject<AsyncE
   /**
    * Manages the execution life cycle of a Promise.
    * loading => loaded | error;
-   * Returns itself.
    */
   public execute(argument: TArgument, promise: (argument: TArgument) => Promise<TValue>) {
     this.loading(argument);
@@ -65,21 +56,17 @@ export class AsyncEventSubject<TArgument, TValue> extends BehaviorSubject<AsyncE
       .then(
         (value) => this.loaded(argument, value),
         (error) => this.managedError(argument, error));
-
-    return this;
   }
 
   /**
    * Manages the observance life cycle of an Observable.
-   * loading => loaded | error;
-   * Returns itself.
+   * loading => (loaded | error)*;
+   * Returns the subscription.
    */
   public observe(argument: TArgument, observable: Observable<TValue>) {
     this.loading(argument);
-    observable.subscribe(
+    return observable.subscribe(
       (value) => this.loaded(argument, value),
       (error) => this.managedError(argument, error));
-
-    return this;
   }
 }

@@ -101,7 +101,8 @@ describe('AsyncEvent', () => {
       x.complete();
     });
 
-    const subject = AsyncEventSubject.observe<void, string>(undefined, observable);
+    const subject = new AsyncEventSubject<void, string>();
+    subject.observe(undefined, observable);
     expect(subject.getValue().isLoaded).to.be.true;
   });
 
