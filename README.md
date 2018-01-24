@@ -2,9 +2,9 @@
 
 Manages loading / loaded / error state (mainly) for Angular applications.
 
-[![Travis](https://travis-ci.org/julienblin/rx-async-event.svg?branch=master)]()
-[![npm](https://img.shields.io/npm/v/rx-async-event.svg)]()
-[![bitHound](https://img.shields.io/bithound/dependencies/github/julienblin/rx-async-event.svg)]()
+[![Travis](https://travis-ci.org/julienblin/rx-async-event.svg?branch=master)](https://travis-ci.org/julienblin/rx-async-event)
+[![npm](https://img.shields.io/npm/v/rx-async-event.svg)](https://www.npmjs.com/package/rx-async-event)
+[![bitHound Dependencies](https://www.bithound.io/github/julienblin/rx-async-event/badges/dependencies.svg)](https://www.bithound.io/github/julienblin/rx-async-event/master/dependencies/npm)
 
 ## Objectives
 
