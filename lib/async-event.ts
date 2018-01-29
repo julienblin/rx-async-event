@@ -1,5 +1,5 @@
 /** Possible states for an async event. */
-export type AsyncEventState = 'init' | 'loading' | 'loaded' | 'error';
+export type AsyncEventState = 'init' | 'processing' | 'processed' | 'error';
 
 /** Non-generic interface for AsyncEvent */
 export interface IAsyncEvent {
@@ -7,11 +7,11 @@ export interface IAsyncEvent {
   /** Returns true if this event represents the initial state. */
   isInit: boolean;
 
-  /** Returns true if this event represents a loading state. */
-  isLoading: boolean;
+  /** Returns true if this event represents a processing state. */
+  isProcessing: boolean;
 
-  /** Returns true if this event represents a loaded state. */
-  isLoaded: boolean;
+  /** Returns true if this event represents a processed state. */
+  isProcessed: boolean;
 
   /** Returns true if this event represents an error state. */
   isError: boolean;
@@ -19,8 +19,11 @@ export interface IAsyncEvent {
   /** Gets the event argument, if any. */
   argument: any;
 
-  /** Gets the event value, if any. */
-  value: any;
+  /** Gets the event result, if any. */
+  result: any;
+
+  /** Returns true if the result is false or an empty array. */
+  isResultEmpty: boolean;
 
   /** Gets the event error, if any. */
   error?: Error;
@@ -34,13 +37,13 @@ export interface IAsyncEvent {
  * that can be emitted along with state indication
  * and data.
  */
-export class AsyncEvent<TArgument, TValue> implements IAsyncEvent {
+export class AsyncEvent<TArgument, TResult> implements IAsyncEvent {
 
     constructor(
       public readonly state: AsyncEventState,
       public readonly data: {
         argument?: TArgument,
-        value?: TValue,
+        result?: TResult,
         error?: Error,
       }) {
     }
@@ -50,14 +53,14 @@ export class AsyncEvent<TArgument, TValue> implements IAsyncEvent {
       return this.is('init');
     }
 
-    /** Returns true if this event represents a loading state. */
-    get isLoading() {
-      return this.is('loading');
+    /** Returns true if this event represents a processing state. */
+    get isProcessing() {
+      return this.is('processing');
     }
 
-    /** Returns true if this event represents a loaded state. */
-    get isLoaded() {
-      return this.is('loaded');
+    /** Returns true if this event represents a processed state. */
+    get isProcessed() {
+      return this.is('processed');
     }
 
     /** Returns true if this event represents an error state. */
@@ -75,9 +78,22 @@ export class AsyncEvent<TArgument, TValue> implements IAsyncEvent {
       return this.data.argument;
     }
 
-    /** Gets the event value, if any. */
-    get value() {
-      return this.data.value;
+    /** Gets the event result, if any. */
+    get result() {
+      return this.data.result;
+    }
+
+    /** Returns true if the result is false or an empty array. */
+    get isResultEmpty() {
+      if (!this.result) {
+        return true;
+      }
+
+      if (Array.isArray(this.result) && this.result.length === 0) {
+        return true;
+      }
+
+      return false;
     }
 
     /** Gets the event error, if any. */

@@ -8,65 +8,69 @@ import { AsyncEvent, InitAsyncEvent } from './async-event';
  * It is intended to be manipulated and own by services, and returned
  * to views as AsyncEventObservables.
  */
-export class AsyncEventSubject<TArgument, TValue> extends BehaviorSubject<AsyncEvent<TArgument, TValue>> {
+export class AsyncEventSubject<TArgument, TResult> extends BehaviorSubject<AsyncEvent<TArgument, TResult>> {
 
   /**
    * Creates an AsyncEventSubject by following a promise life cycle.
    */
-  public static execute<TArgument, TValue>(argument: TArgument, promise: (argument: TArgument) => Promise<TValue>) {
-      const subject = new AsyncEventSubject<TArgument, TValue>();
+  public static execute<TArgument, TResult>(argument: TArgument, promise: (argument: TArgument) => Promise<TResult>) {
+      const subject = new AsyncEventSubject<TArgument, TResult>();
       subject.execute(argument, promise);
       return subject;
   }
 
   constructor() {
-    super(InitAsyncEvent as AsyncEvent<TArgument, TValue>);
+    super(InitAsyncEvent as AsyncEvent<TArgument, TResult>);
   }
 
   /** Emits an event with the init state. */
   public init() {
-    super.next(InitAsyncEvent as AsyncEvent<TArgument, TValue>);
+    super.next(InitAsyncEvent as AsyncEvent<TArgument, TResult>);
   }
 
-  /** Emits an event with the loading state. */
-  public loading(argument?: TArgument) {
-    super.next(new AsyncEvent<TArgument, TValue>('loading', { argument }));
+  /** Emits an event with the processing state. */
+  public processing(argument?: TArgument, result?: TResult) {
+    super.next(new AsyncEvent<TArgument, TResult>('processing', { argument, result }));
   }
 
-  /** Emits an event with the loaded state. */
-  public loaded(argument?: TArgument, value?: TValue) {
-    super.next(new AsyncEvent<TArgument, TValue>('loaded', { argument, value }));
+  /** Emits an event with the processed state. */
+  public processed(argument?: TArgument, result?: TResult) {
+    super.next(new AsyncEvent<TArgument, TResult>('processed', { argument, result }));
   }
 
   /**
    * Emits an event with the error state.
-   * Do not mix it with error, which puts the Subject itself on error.
+   * Do not confuse with error, which puts the Subject itself on error.
    */
-  public managedError(argument?: TArgument, error?: Error) {
-    super.next(new AsyncEvent<TArgument, TValue>('error', { argument, error }));
+  public managedError(argument?: TArgument, result?: TResult, error?: Error) {
+    super.next(new AsyncEvent<TArgument, TResult>('error', { argument, error, result }));
   }
 
   /**
    * Manages the execution life cycle of a Promise.
-   * loading => loaded | error;
+   * processing => processed | error;
+   * @param carryOnResult - true to emit current result on processing and error
    */
-  public execute(argument: TArgument, promise: (argument: TArgument) => Promise<TValue>) {
-    this.loading(argument);
+  public execute(argument: TArgument, promise: (argument: TArgument) => Promise<TResult>, carryOnResult = true) {
+    const currentResult = carryOnResult ? this.value.result : undefined;
+    this.processing(argument, currentResult);
     promise(argument)
       .then(
-        (value) => this.loaded(argument, value),
-        (error) => this.managedError(argument, error));
+        (result) => this.processed(argument, result),
+        (error) => this.managedError(argument, currentResult, error));
   }
 
   /**
    * Manages the observance life cycle of an Observable.
-   * loading => (loaded | error)*;
-   * Returns the subscription.
+   * processing => (processed | error)*;
+   * @returns the subscription.
+   * @param carryOnResult - true to emit current result on processing and error
    */
-  public observe(argument: TArgument, observable: Observable<TValue>) {
-    this.loading(argument);
+  public observe(argument: TArgument, observable: Observable<TResult>, carryOnResult = true): Subscription {
+    const currentResult = carryOnResult ? this.value.result : undefined;
+    this.processing(argument, currentResult);
     return observable.subscribe(
-      (value) => this.loaded(argument, value),
-      (error) => this.managedError(argument, error));
+      (result) => this.processed(argument, result),
+      (error) => this.managedError(argument, currentResult, error));
   }
 }
