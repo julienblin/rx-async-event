@@ -28,6 +28,9 @@ export interface IAsyncEvent {
   /** Gets the event error, if any. */
   error?: Error;
 
+  /** Gets the state, if any. */
+  state: AsyncEventState;
+
   /** More elegant version of state ===. */
   is(state: AsyncEventState): boolean;
 }
