@@ -1,6 +1,6 @@
 # rx-async-event
 
-Manages loading / loaded / error state (mainly) for Angular applications.
+Manages processing / processed / error state (mainly) for Angular applications.
 
 [![Travis](https://travis-ci.org/julienblin/rx-async-event.svg?branch=master)](https://travis-ci.org/julienblin/rx-async-event)
 [![npm](https://img.shields.io/npm/v/rx-async-event.svg)](https://www.npmjs.com/package/rx-async-event)
@@ -8,11 +8,11 @@ Manages loading / loaded / error state (mainly) for Angular applications.
 
 ## Objectives
 
-This is a small helper library to help manage loading and loaded states for Angular applications.
+This is a small helper library to help manage processing and processed states for Angular applications.
 It allows encapsulation of either a promise or an observable, and emits standardized life cycle events:
 - init
-- loading
-- loaded
+- processing
+- processed
 - error
 
 As a side benefit, it also manages errors so that they bubble up in a managed way (instead of crashing the application).
@@ -41,7 +41,7 @@ export class AppService {
   constructor(private http: HttpClient) { }
 
   get postEvent$(): AsyncEventObservable<number, Post> {
-    return this._postEvent$;
+    return this._postEvent$.asObservable();
   }
 
   /**
@@ -104,14 +104,14 @@ export class AppComponent {
     Nothing to display
   </ng-container>
 
-  <ng-container *ngIf="postEvent.isLoading">
-    <!-- This is the loading state -->
-    Loading post id {{postEvent.argument}}...
+  <ng-container *ngIf="postEvent.isProcessing">
+    <!-- This is the processing state -->
+    Processing post id {{postEvent.argument}}...
   </ng-container>
 
-  <ng-container *ngIf="postEvent.isLoaded">
-    <!-- This is the loaded state -->
-    Post title: {{postEvent.value.title}}
+  <ng-container *ngIf="postEvent.isProcessed">
+    <!-- This is the processed state -->
+    Post title: {{postEvent.result.title}}
   </ng-container>
 
   <ng-container *ngIf="postEvent.isError">
