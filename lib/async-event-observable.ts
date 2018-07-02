@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AsyncEvent } from './async-event';
 
 /** An AsyncEventObservable is simply an Observable of AsyncEvent :-) */

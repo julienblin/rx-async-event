@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import 'mocha';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import { Observable, Observer } from 'rxjs';
 import { AsyncEvent } from '../lib/async-event';
 import { AsyncEventSubject } from '../lib/index';
 
